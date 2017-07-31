@@ -15,7 +15,7 @@ RUN useradd elasticsearch && \
   rm -rf $(find /home/elasticsearch/elasticsearch | egrep "(\.(exe|bat)$)")
 
 #- copy config
-COPY config/elasticsearch.yml /home/elasticsearch/elasticsearch/config/elasticsearch.yml
+COPY elasticsearch.yml /home/elasticsearch/elasticsearch/config/elasticsearch.yml
 
 # Set environment
 ENV DISCOVERY_SERVICE elasticsearch-discovery
