@@ -23,4 +23,6 @@ curl http://elasticsearch-0.els-headless.default.svc.kubernetes:9200/_cat/nodes?
 
 curl http://elasticsearch-0.els-headless.default.svc.kubernetes:9200/_cat/health?v
 
+# Note
 
+elastic-statful.yaml is only for test purpose, for production, please use persistance storage to store data
