@@ -20,6 +20,7 @@ kubectl create -f elastic-stateful.yaml
 # check health and status of elasticsearch cluster
 
 curl http://elasticsearch-0.els-headless.default.svc.kubernetes:9200/_cat/nodes?v
+
 curl http://elasticsearch-0.els-headless.default.svc.kubernetes:9200/_cat/health?v
 
 
