@@ -6,6 +6,12 @@ This project is use to deploy Elastic-search cluster on Kubernetes, Here we are 
 
 docker build --rm -t elasticsearch:5.5.0 .
 
+#- you check checl image build status bu running a sample container and see logs of it, it will create a single node elastci search cluster
+
+docker run --privileged -d --name elastic --hostname elastic elasticsearch:5.5.0 
+
+docker logs elastic
+
 
 #- create elasticsearch headless service 
 
