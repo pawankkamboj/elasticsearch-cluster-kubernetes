@@ -18,7 +18,7 @@ RUN useradd elasticsearch && \
 COPY elasticsearch.yml /home/elasticsearch/elasticsearch/config/elasticsearch.yml
 
 # Set environment
-ENV DISCOVERY_SERVICE elasticsearch-discovery
+ENV DISCOVERY_SERVICE 127.0.0.1
 ENV CLUSTER_NAME elasticsearch-test
 
 #- provide env equal to exec
