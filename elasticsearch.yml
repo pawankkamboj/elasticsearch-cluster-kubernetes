@@ -1,0 +1,13 @@
+cluster:
+  name: ${CLUSTER_NAME}
+
+path:
+  data: /home/elasticsearch/elasticsearch/data
+  logs: /home/elasticsearch/elasticsearch/logs
+
+bootstrap:
+  memory_lock: true
+
+discovery:
+  zen:
+    ping.unicast.hosts: ${DISCOVERY_SERVICE}
