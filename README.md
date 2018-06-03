@@ -4,9 +4,8 @@ This project is use to deploy Elastic-search cluster on Kubernetes, Here we are 
 #- clone repo
 git clone https://github.com/pawankkamboj/elasticsearch-cluster-kubernetes.git
 
-'''
 cd elasticsearch-cluster-kubernetes
-'''
+
 #- build docker image and push on your private registry
 
 docker build --rm -t elasticsearch:5.5.0 .
