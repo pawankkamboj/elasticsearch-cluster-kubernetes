@@ -1,7 +1,12 @@
 # elasticsearch-cluster-kubernetes
 
 This project is use to deploy Elastic-search cluster on Kubernetes, Here we are using Elatsic-search version 5.5.0 and follow the below steps for deployment. Kube-DNS should be deployed on Kubernetes and running.
+#- clone repo
+git clone https://github.com/pawankkamboj/elasticsearch-cluster-kubernetes.git
 
+'''
+cd elasticsearch-cluster-kubernetes
+'''
 #- build docker image and push on your private registry
 
 docker build --rm -t elasticsearch:5.5.0 .
