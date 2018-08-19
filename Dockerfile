@@ -6,7 +6,7 @@ RUN yum -y install java && \
 	yum clean all
 
 #- elastic search version
-ENV VERSION 5.5.0
+ENV VERSION 5.6.1
 
 #- donwload elastic search and set up user
 RUN useradd elasticsearch && \
@@ -18,8 +18,15 @@ RUN useradd elasticsearch && \
 COPY elasticsearch.yml /home/elasticsearch/elasticsearch/config/elasticsearch.yml
 
 # Set environment
-ENV DISCOVERY_SERVICE 127.0.0.1
-ENV CLUSTER_NAME elasticsearch-test
+# Set environment
+ENV DISCOVERY_SERVICE="elasticsearch-discovery" CLUSTER_NAME="elasticsearch-default" \
+	ES_JAVA_OPTS="-Xms1g -Xmx1g" \
+	NODE_MASTER="true" NODE_DATA="true" NODE_INGEST="true" \
+	HTTP_ENABLE="true" NETWORK_HOST="_site_" \
+	HTTP_CORS_ENABLE="true" HTTP_CORS_ALLOW_ORIGIN="*" \
+	NUMBER_OF_MASTERS="1" MAX_LOCAL_STORAGE_NODES="1" \
+	SHARD_ALLOCATION_AWARENESS="" SHARD_ALLOCATION_AWARENESS_ATTR="" \
+	MEMORY_LOCK="true"
 
 #- provide env equal to exec
 COPY su-exec /usr/local/bin/su-exec
