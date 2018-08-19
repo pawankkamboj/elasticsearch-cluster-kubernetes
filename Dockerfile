@@ -6,7 +6,7 @@ RUN yum -y install java && \
 	yum clean all
 
 #- elastic search version
-ENV VERSION 5.6.1
+ENV VERSION 5.6.2
 
 #- donwload elastic search and set up user
 RUN useradd elasticsearch && \
@@ -17,7 +17,6 @@ RUN useradd elasticsearch && \
 #- copy config
 COPY elasticsearch.yml /home/elasticsearch/elasticsearch/config/elasticsearch.yml
 
-# Set environment
 # Set environment
 ENV DISCOVERY_SERVICE="elasticsearch-discovery" CLUSTER_NAME="elasticsearch-default" \
 	ES_JAVA_OPTS="-Xms1g -Xmx1g" \
