@@ -13,4 +13,3 @@ spec:
   clusterIP: None
   selector:
     app: elasticsearch
-    role: master
