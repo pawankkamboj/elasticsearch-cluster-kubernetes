@@ -3,13 +3,14 @@ kind: Service
 metadata:
   name: els-headless
   labels:
-    product: els-headless
+    app: elasticsearch
 spec:
   ports:
   - port: 9200
-    name: server
+    name: http
   - port: 9300
-    name: client
+    name: tcp
   clusterIP: None
   selector:
-    product: elasticsearch
+    app: elasticsearch
+    role: master
