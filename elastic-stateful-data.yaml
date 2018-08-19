@@ -1,0 +1,80 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: elasticsearch
+  labels:
+    product: elasticsearch
+    version: "5.6.2"
+    role: data
+spec:
+  serviceName: els-headless
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        product: elasticsearch
+        version: "5.6.2"
+        role: data
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: role
+                operator: In
+                values: 
+                - data
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: elasticsearch
+        securityContext:
+          privileged: true
+        image: [REGISTRY-URL]/elasticsearch:5.6.2
+        imagePullPolicy: Always
+        env:
+        - name: ES_JAVA_OPTS
+          value: "-Xms2g -Xmx2g"
+        - name: NODENAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: "NUMBER_OF_MASTERS"
+          value: "2"
+        - name: NODE_NAME
+          value: "${NODENAME}.central-els-headless.default.svc.yatra"
+        - name: NETWORK_HOST
+          value: "${NODENAME}.central-els-headless.default.svc.yatra"
+        - name: HTTP_ENABLE
+          value: "true"
+        - name: NODE_DATA
+          value: "true"
+        - name: NODE_INGEST
+          value: "false"
+        - name: NODE_MASTER
+          value: "false"          
+        - name: DISCOVERY_SERVICE
+          value: "elasticsearch-0.els-headless.default.svc.kubernetes,elasticsearch-1.els-headless.default.svc.kubernetes,elasticsearch-2.els-headless.default.svc.kubernetes"
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 4096Mi
+          requests:
+            cpu: 1000m
+            memory: 2048Mi
+        ports:
+        - containerPort: 9300
+          name: data-tcp
+          protocol: TCP
+        - containerPort: 9200
+          name: data-tcp
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /data/elasticsearch/elasticsearch/data
+          name: data
+      volumes:
+      - name: data
+        hostPath:
+         path: /data/elasticsearch/elasticsearch/data            
