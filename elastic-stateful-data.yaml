@@ -1,9 +1,9 @@
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
-  name: elasticsearch
+  name: elasticsearch-data
   labels:
-    product: elasticsearch
+    app: elasticsearch
     version: "5.6.2"
     role: data
 spec:
@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        product: elasticsearch
+        app: elasticsearch
         version: "5.6.2"
         role: data
       annotations:
@@ -29,7 +29,7 @@ spec:
                 - data
             topologyKey: kubernetes.io/hostname
       containers:
-      - name: elasticsearch
+      - name: elasticsearch-data
         securityContext:
           privileged: true
         image: [REGISTRY-URL]/elasticsearch:5.6.2
@@ -44,9 +44,9 @@ spec:
         - name: "NUMBER_OF_MASTERS"
           value: "2"
         - name: NODE_NAME
-          value: "${NODENAME}.central-els-headless.default.svc.yatra"
+          value: "${NODENAME}.els-headless.default.svc.cluster.local"
         - name: NETWORK_HOST
-          value: "${NODENAME}.central-els-headless.default.svc.yatra"
+          value: "${NODENAME}.els-headless.default.svc.cluster.local"
         - name: HTTP_ENABLE
           value: "true"
         - name: NODE_DATA
@@ -56,7 +56,7 @@ spec:
         - name: NODE_MASTER
           value: "false"          
         - name: DISCOVERY_SERVICE
-          value: "elasticsearch-0.els-headless.default.svc.kubernetes,elasticsearch-1.els-headless.default.svc.kubernetes,elasticsearch-2.els-headless.default.svc.kubernetes"
+          value: "elasticsearch-master-0.els-headless.default.svc.cluster.local,elasticsearch-master-1.els-headless.default.svc.cluster.local,elasticsearch-master-2.els-headless.default.svc.cluster.local"
         resources:
           limits:
             cpu: 1000m
@@ -69,7 +69,7 @@ spec:
           name: data-tcp
           protocol: TCP
         - containerPort: 9200
-          name: data-tcp
+          name: data-http
           protocol: TCP
         volumeMounts:
         - mountPath: /data/elasticsearch/elasticsearch/data
